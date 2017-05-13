@@ -21,6 +21,7 @@ public class Parser {
     );
 
 
+    // TODO: add token expectations here
     private void takeNext() throws IOException {
             currentToken = lexer.next();
     }
