@@ -1,5 +1,6 @@
 import optimizer.Optimizer;
 import optimizer.strategies.*;
+import simplifier.Simplifier;
 import ui.CommandLineInterface;
 
 import java.util.Arrays;
@@ -9,14 +10,15 @@ import java.util.Arrays;
  */
 public class Main {
     public static void main(String[] args) {
-        Optimizer optimizer = new Optimizer(Arrays.asList(
+
+        Simplifier simplifier = new Simplifier(Arrays.asList(
                 new DeMorganStrategy(),
                 new InvertLiteral(),
                 new NotNotStrategy(),
                 new BinaryLiteralStrategy(),
                 new ChainReducerStrategy()
         ));
-        CommandLineInterface cli = new CommandLineInterface(optimizer);
+        CommandLineInterface cli = new CommandLineInterface(simplifier);
         cli.run();
     }
 }

@@ -3,9 +3,11 @@ package parser;
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
+import parser.exceptions.UnexpectedTokenException;
 import parser.nodes.*;
 
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by sbogolepov on 08/05/2017.
@@ -13,6 +15,11 @@ import java.io.IOException;
 public class Parser {
     private Lexer lexer;
     private Token currentToken;
+
+    private static final List<TokenType> primaryTokenTypes = Arrays.asList(
+            TokenType.TRUE, TokenType.FALSE, TokenType.ID, TokenType.LPAREN
+    );
+
 
     private void takeNext() throws IOException {
             currentToken = lexer.next();
@@ -22,7 +29,7 @@ public class Parser {
         this.lexer = lexer;
     }
 
-    private Node parsePrimary(Node parent) throws Exception {
+    private Node parsePrimary(Node parent) throws IOException, ParsingException {
         switch (currentToken.getTokenType()) {
             case TRUE:
                 return new Literal(parent, true);
@@ -35,15 +42,15 @@ public class Parser {
                 Node expr = parseExpression(parent);
                 takeNext();
                 if (currentToken.getTokenType() != TokenType.RPAREN) {
-                    throw new Exception("expected )");
+                    throw new UnexpectedTokenException(currentToken, Collections.singletonList(TokenType.RPAREN));
                 }
                 return expr;
             default:
-                throw new Exception("Unexpected token");
+                throw new UnexpectedTokenException(currentToken, primaryTokenTypes);
         }
     }
 
-    private Node parseExpression(Node parent) throws Exception {
+    private Node parseExpression(Node parent) throws IOException, ParsingException {
         Node result = parseTerm(parent);
         if (lexer.peek().getTokenType() == TokenType.OR) {
             BinaryOp op = new BinaryOp(parent, BinaryOp.Type.OR, result, null);
@@ -57,7 +64,7 @@ public class Parser {
         }
     }
 
-    private Node parseTerm(Node parent) throws Exception {
+    private Node parseTerm(Node parent) throws IOException, ParsingException {
         Node result = parseFactor(parent);
         if (lexer.peek().getTokenType() == TokenType.AND) {
             BinaryOp op = new BinaryOp(parent, BinaryOp.Type.AND, result, null);
@@ -71,7 +78,7 @@ public class Parser {
         }
     }
 
-    private Node parseFactor(Node parent) throws Exception {
+    private Node parseFactor(Node parent) throws IOException, ParsingException {
         if (currentToken.getTokenType() == TokenType.NOT) {
             takeNext();
             Not not = new Not(parent, null);
@@ -82,15 +89,15 @@ public class Parser {
         }
     }
 
-    private Id parseId(Node parent) throws Exception {
+    private Id parseId(Node parent) throws ParsingException {
         if (currentToken.getTokenType() == TokenType.ID) {
             return new Id(parent, currentToken.getValue());
         } else {
-            throw new Exception("Unexpected token");
+            throw new UnexpectedTokenException(currentToken, Collections.singletonList(TokenType.ID));
         }
     }
 
-    public Root parse() throws Exception {
+    public Root parse() throws IOException, ParsingException {
         takeNext();
         Root root = new Root(null);
         root.setChild(parseExpression(root));

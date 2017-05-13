@@ -1,9 +1,7 @@
 package ui;
 
-import lexer.Lexer;
-import optimizer.Optimizer;
-import parser.Parser;
-import parser.nodes.Root;
+import simplifier.SimplificationOutputProcessor;
+import simplifier.Simplifier;
 
 import java.io.*;
 
@@ -11,10 +9,12 @@ import java.io.*;
  * Created by sbogolepov on 13/05/2017.
  */
 public class CommandLineInterface {
-    private Optimizer optimizer;
+    private final Simplifier simplifier;
 
-    public CommandLineInterface(Optimizer optimizer) {
-        this.optimizer = optimizer;
+    private CLIOutputProcessor outputProcessor = new CLIOutputProcessor();
+
+    public CommandLineInterface(Simplifier simplifier) {
+        this.simplifier = simplifier;
     }
 
     public void run() {
@@ -26,7 +26,8 @@ public class CommandLineInterface {
                 if (input.equals("quit")) {
                     break;
                 }
-                System.out.println(processInput(input));
+                outputProcessor.setInput(input);
+                simplifier.simplify(input).process(outputProcessor);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,9 +36,4 @@ public class CommandLineInterface {
         }
     }
 
-    private String processInput(String input) throws Exception {
-        Root root = new Parser(new Lexer(new StringReader(input))).parse();
-        optimizer.optimize(root);
-        return root.toString();
-    }
 }
