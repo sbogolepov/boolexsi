@@ -27,12 +27,9 @@ public class Parser {
         this.lexer = lexer;
 
         primaryTokenTypes = Arrays.asList(TokenType.ID, TokenType.FALSE, TokenType.TRUE, TokenType.LPAREN);
-
         factorTokenTypes = new ArrayList<>(primaryTokenTypes);
         factorTokenTypes.add(TokenType.NOT);
-
         termTokenTypes = new ArrayList<>(factorTokenTypes);
-
         expressionTokenTypes = new ArrayList<>(termTokenTypes);
     }
 
@@ -58,6 +55,7 @@ public class Parser {
             case ID:
                 return new Id(parent, currentToken.getValue());
             case LPAREN:
+                // TODO: do we need to represent parens in AST?
                 takeNext(expressionTokenTypes);
                 Node expr = parseExpression(parent);
                 takeNext(Collections.singletonList(TokenType.RPAREN));
@@ -110,6 +108,10 @@ public class Parser {
         Root root = new Root(null);
         takeNext(expressionTokenTypes);
         root.setChild(parseExpression(root));
+        if (lexer.peek().getTokenType() != null && lexer.peek().getTokenType() != TokenType.EOF) {
+            takeNext(null);
+            throw new UnexpectedTokenException(currentToken, Arrays.asList(TokenType.AND, TokenType.OR));
+        }
         return root;
     }
 }

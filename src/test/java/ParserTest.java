@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ParserTest {
 
     private Node astFromString(String str) throws Exception {
-       return new Parser(new Lexer(new StringReader(str))).parse();
+       return new Parser(new Lexer(new StringReader(str))).parse().getChild();
     }
 
     @Test
@@ -32,11 +32,6 @@ public class ParserTest {
     @Test
     public void singleId() throws Exception {
         assertThat(astFromString("id")).isEqualTo(new Id(null, "id"));
-    }
-
-    @Test
-    public void wrongId() {
-        assertThatThrownBy(() -> astFromString("fooBar")).hasCauseInstanceOf(LexicalException.class);
     }
 
     @Test
@@ -109,12 +104,10 @@ public class ParserTest {
     public void notWithParen1() throws Exception {
         BinaryOp or = new BinaryOp(null, BinaryOp.Type.OR, null, null);
         Not not = new Not(null, or);
-        Root root = new Root(not);
-        not.setParent(root);
         or.setParent(not);
         or.setLeftChild(new Id(or, "x"));
         or.setRightChild(new Id(or, "y"));
-        assertThat(astFromString("NOT (x OR y)")).isEqualTo(root);
+        assertThat(astFromString("NOT (x OR y)")).isEqualTo(not);
     }
 
     // NOT (x) OR NOT (y)
@@ -122,11 +115,9 @@ public class ParserTest {
     public void notWithParen2() throws Exception {
         BinaryOp or = new BinaryOp(null, BinaryOp.Type.OR, null, null);
         Not not = new Not(null, or);
-        Root root = new Root(not);
-        not.setParent(root);
         or.setParent(not);
         or.setLeftChild(new Id(or, "x"));
         or.setRightChild(new Id(or, "y"));
-        assertThat(astFromString("NOT (x OR y)")).isEqualTo(root);
+        assertThat(astFromString("NOT (x OR y)")).isEqualTo(not);
     }
 }
