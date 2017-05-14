@@ -3,6 +3,11 @@ package node.nodes;
 import node.NodeVisitor;
 import node.Node;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by sbogolepov on 08/05/2017.
  */
@@ -58,18 +63,24 @@ public class BinaryOp extends Node {
 
         BinaryOp binaryOp = (BinaryOp) o;
 
-        return type == binaryOp.type && (isSymmetricalEquals(binaryOp) || isAsymmetricalEquals(binaryOp));
+        return type == binaryOp.type
+                && getChainOperands(this).equals(binaryOp.getChainOperands(binaryOp));
 
     }
 
-    private boolean isSymmetricalEquals(BinaryOp binaryOp) {
-        return (leftChild != null ? leftChild.equals(binaryOp.leftChild) : binaryOp.leftChild == null)
-                && (rightChild != null ? rightChild.equals(binaryOp.rightChild) : binaryOp.rightChild == null);
-    }
-
-    private boolean isAsymmetricalEquals(BinaryOp binaryOp) {
-        return (leftChild != null ? leftChild.equals(binaryOp.rightChild) : binaryOp.rightChild == null)
-                && (rightChild != null ? rightChild.equals(binaryOp.leftChild) : binaryOp.leftChild == null);
+    private Set<Node> getChainOperands(BinaryOp binaryOp) {
+        Set<Node> operands = new HashSet<>();
+        if (binaryOp.leftChild instanceof BinaryOp && ((BinaryOp) binaryOp.leftChild).getType() == binaryOp.getType()) {
+            operands.addAll(getChainOperands((BinaryOp) binaryOp.leftChild));
+        } else {
+            operands.add(binaryOp.leftChild);
+        }
+        if (binaryOp.rightChild instanceof BinaryOp && ((BinaryOp) binaryOp.rightChild).getType() == binaryOp.getType()) {
+            operands.addAll(getChainOperands((BinaryOp) binaryOp.rightChild));
+        } else {
+            operands.add(binaryOp.rightChild);
+        }
+        return operands;
     }
 
     @Override

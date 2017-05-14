@@ -55,6 +55,11 @@ public class OptimizerTest {
     }
 
     @Test
+    public void equalChains() throws Exception {
+        check("(x OR y OR z) OR (x OR z OR y)", "x OR y OR z");
+    }
+
+    @Test
     public void invertLiteralTest() throws Exception {
         Node root = astFromString("NOT TRUE");
         new Optimizer(Arrays.asList(new InvertLiteral())).optimize(root);
