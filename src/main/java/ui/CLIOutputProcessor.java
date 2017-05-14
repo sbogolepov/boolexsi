@@ -20,8 +20,10 @@ public class CLIOutputProcessor implements SimplificationOutputProcessor {
 
     @Override
     public void process(SimplifierOutput.Fail fail) {
-        String positions = "[" + fail.getError().startPosition() + ".." + fail.getError().endPosition() + "]";
-        System.out.println("Parse error at " + positions + ":" + fail.getError().getMessage());
+        int start = fail.getError().startPosition();
+        int end = fail.getError().endPosition();
+        String positions = "[" + start + ".." + end + "]";
+        System.out.println("Parse error at " + positions + ": " + fail.getError().getMessage());
         System.out.println(input);
         int i = 0;
         while (i < fail.getError().startPosition()) {
