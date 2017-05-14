@@ -84,10 +84,7 @@ public class BinaryOp extends Node {
 
     @Override
     public int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + (leftChild != null ? leftChild.hashCode() : 0);
-        result = 31 * result + (rightChild != null ? rightChild.hashCode() : 0);
-        return result;
+        return getChainOperands(this).hashCode();
     }
 
     @Override
