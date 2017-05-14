@@ -8,6 +8,7 @@ import parser.Parser;
 import java.io.StringReader;
 import java.util.Arrays;
 
+import static org.assertj.core.api.AssertionsForClassTypes.in;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 /**
@@ -17,6 +18,12 @@ public class OptimizerTest {
 
     private Node astFromString(String str) throws Exception {
         return new Parser(new Lexer(new StringReader(str))).parse();
+    }
+
+    public void check(String input, String output) throws Exception {
+        Node root = astFromString(input);
+        defaultOptimizer().optimize(root);
+        assertThat(root).isEqualTo(astFromString(output));
     }
 
     private static Optimizer defaultOptimizer() {
@@ -38,10 +45,26 @@ public class OptimizerTest {
     }
 
     @Test
+    public void chainWithParentheses() throws Exception {
+        check("(x OR y) OR y", "x OR y");
+    }
+
+    @Test
+    public void badChain() throws Exception {
+        check("x OR y OR z OR w", "x OR y OR z OR w");
+    }
+
+    @Test
     public void invertLiteralTest() throws Exception {
         Node root = astFromString("NOT TRUE");
         new Optimizer(Arrays.asList(new InvertLiteral())).optimize(root);
         assertThat(root).isEqualTo(astFromString("FALSE"));
+    }
+
+    @Test
+    public void symmetry() throws Exception {
+        check("a OR b", "b OR a");
+        check("a OR b OR c", "c OR a OR b");
     }
 
     @Test
@@ -85,22 +108,16 @@ public class OptimizerTest {
 
     @Test
     public void toBeOrToBeOrToBeOrToBe() throws Exception {
-        Node root = astFromString("x OR x OR x OR x");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("x"));
+        check("x OR x OR x OR x", "x");
     }
 
     @Test
     public void toBeOrToBeOrToNotBeOrToBe() throws Exception {
-        Node root = astFromString("x OR x OR NOT x OR x");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("TRUE"));
+        check("x OR x OR NOT x OR x", "TRUE");
     }
 
     @Test
     public void toBeOrNotToBe() throws Exception {
-        Node root = astFromString("x OR NOT x");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("TRUE"));
+        check("x OR NOT x", "TRUE");
     }
 }

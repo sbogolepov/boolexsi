@@ -22,7 +22,7 @@ public class RemoveParensStrategy implements OptimizationStrategy<Parens> {
         }
         Node child = node.getChild();
         if (child instanceof BinaryOp && parent instanceof BinaryOp) {
-            return ((BinaryOp) child).getType() != ((BinaryOp) parent).getType();
+            return ((BinaryOp) child).getType() == ((BinaryOp) parent).getType();
         }
         return true;
     }

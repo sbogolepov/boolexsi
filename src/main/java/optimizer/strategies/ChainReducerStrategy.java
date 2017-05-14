@@ -50,7 +50,7 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
                 return true;
             }
         } else {
-            result = collectChainChildren((BinaryOp) node.getLeftChild(), type, children);
+            result = collectChainChildren((BinaryOp) node.getRightChild(), type, children);
         }
         return result;
     }
