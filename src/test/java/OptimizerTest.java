@@ -32,9 +32,9 @@ public class OptimizerTest {
 
     @Test
     public void notNotTest() throws Exception {
-        Node root = astFromString("NOT (NOT TRUE)");
-        new Optimizer(Arrays.asList(new NotNotStrategy())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("TRUE"));
+        Node root = astFromString("NOT (NOT x)");
+        new Optimizer(Arrays.asList(new NotNotStrategy(), new RemoveParensStrategy())).optimize(root);
+        assertThat(root).isEqualTo(astFromString("x"));
     }
 
     @Test

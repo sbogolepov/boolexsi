@@ -75,7 +75,7 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
 
     private Node wrapNode(Node node, boolean isPositive) {
         if (!isPositive) {
-            return new Not(null, node);
+            return new Not(node);
         } else {
             return node;
         }

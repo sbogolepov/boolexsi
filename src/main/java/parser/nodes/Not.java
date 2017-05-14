@@ -16,11 +16,8 @@ public class Not extends Node {
         this.child = child;
     }
 
-    public static Not invert(Node node, Consumer<Node> childSetter) {
-        Not not = new Not(node.getParent(), node);
-        node.setParent(not);
-        childSetter.accept(not);
-        return not;
+    public Not(Node child) {
+        this(child.getParent(), child);
     }
 
     public Node getChild() {

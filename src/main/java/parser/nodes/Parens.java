@@ -24,13 +24,6 @@ public class Parens extends Node {
         this.child = child;
     }
 
-    public static Parens wrap(Node node, Consumer<Node> childSetter) {
-        Parens parens = new Parens(node.getParent(), node);
-        node.setParent(parens);
-        childSetter.accept(parens);
-        return parens;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

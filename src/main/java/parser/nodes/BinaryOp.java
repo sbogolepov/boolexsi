@@ -23,6 +23,10 @@ public class BinaryOp extends Node {
         this.rightChild = rightChild;
     }
 
+    public BinaryOp(Node parent, Type type) {
+        this(parent, type, null, null);
+    }
+
     public Type getType() {
         return type;
     }
