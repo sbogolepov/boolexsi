@@ -51,4 +51,12 @@ public class PostFixTreeWalker implements NodeVisitor<Boolean> {
         }
         return f.apply(root);
     }
+
+    @Override
+    public Boolean visit(Parens parens) {
+        if (parens.getChild().apply(this)) {
+            visit(parens);
+        }
+        return f.apply(parens);
+    }
 }

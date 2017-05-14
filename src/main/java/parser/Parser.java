@@ -55,11 +55,11 @@ public class Parser {
             case ID:
                 return new Id(parent, currentToken.getValue());
             case LPAREN:
-                // TODO: do we need to represent parens in AST?
+                Parens parens = new Parens(parent, null);
                 takeNext(expressionTokenTypes);
-                Node expr = parseExpression(parent);
+                parens.setChild(parseExpression(parens));
                 takeNext(Collections.singletonList(TokenType.RPAREN));
-                return expr;
+                return parens;
             default:
                 throw new UnexpectedTokenException(currentToken, primaryTokenTypes);
         }

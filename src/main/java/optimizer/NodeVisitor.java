@@ -16,4 +16,6 @@ public interface NodeVisitor<T> {
     T visit(Not not);
 
     T visit(Root root);
+
+    T visit(Parens parens);
 }

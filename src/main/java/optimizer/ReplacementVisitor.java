@@ -49,4 +49,11 @@ public class ReplacementVisitor implements NodeVisitor<Void> {
         root.setChild(to);
         return null;
     }
+
+    @Override
+    public Void visit(Parens parens) {
+        to.setParent(parens);
+        parens.setChild(to);
+        return null;
+    }
 }

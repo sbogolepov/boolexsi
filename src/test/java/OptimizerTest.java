@@ -25,7 +25,8 @@ public class OptimizerTest {
                 new InvertLiteral(),
                 new NotNotStrategy(),
                 new BinaryLiteralStrategy(),
-                new ChainReducerStrategy()
+                new ChainReducerStrategy(),
+                new RemoveParensStrategy()
         ));
     }
 
@@ -45,9 +46,9 @@ public class OptimizerTest {
 
     @Test
     public void deMorganTest() throws Exception {
-        Node root = astFromString("NOT (NOT (FALSE) OR y)");
-        new Optimizer(Arrays.asList(new DeMorganStrategy(), new InvertLiteral())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("FALSE AND NOT (y)"));
+        Node root = astFromString("NOT (x OR y)");
+        new Optimizer(Arrays.asList(new DeMorganStrategy())).optimize(root);
+        assertThat(root).isEqualTo(astFromString("NOT (x) AND NOT (y)"));
     }
 
     @Test

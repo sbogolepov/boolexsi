@@ -39,7 +39,7 @@ public class Literal extends Node {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return String.valueOf(value).toUpperCase();
     }
 
     @Override

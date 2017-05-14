@@ -3,6 +3,8 @@ package parser.nodes;
 import optimizer.NodeVisitor;
 import parser.Node;
 
+import java.util.function.Consumer;
+
 /**
  * Created by sbogolepov on 08/05/2017.
  */
@@ -12,6 +14,13 @@ public class Not extends Node {
     public Not(Node parent, Node child) {
         super(parent);
         this.child = child;
+    }
+
+    public static Not invert(Node node, Consumer<Node> childSetter) {
+        Not not = new Not(node.getParent(), node);
+        node.setParent(not);
+        childSetter.accept(not);
+        return not;
     }
 
     public Node getChild() {
@@ -39,7 +48,7 @@ public class Not extends Node {
 
     @Override
     public String toString() {
-        return "NOT (" + child + ")";
+        return "NOT " + child;
     }
 
     @Override

@@ -16,7 +16,8 @@ public class Main {
                 new InvertLiteral(),
                 new NotNotStrategy(),
                 new BinaryLiteralStrategy(),
-                new ChainReducerStrategy()
+                new ChainReducerStrategy(),
+                new RemoveParensStrategy()
         ));
         CommandLineInterface cli = new CommandLineInterface(simplifier);
         cli.run();
