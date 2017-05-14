@@ -25,11 +25,11 @@ public class UnexpectedEndError implements Error {
 
     @Override
     public int startPosition() {
-        return 0;
+        return exception.getToken().getPosition();
     }
 
     @Override
     public int endPosition() {
-        return 1;
+        return exception.getToken().getPosition() + 1;
     }
 }

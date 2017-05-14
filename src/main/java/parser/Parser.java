@@ -36,8 +36,8 @@ public class Parser {
 
     private void takeNext(List<TokenType> expectedTokens) throws IOException, ParsingException {
         currentToken = lexer.next();
-        if (currentToken == null || currentToken.getTokenType() == TokenType.EOF) {
-            throw new UnexpectedEndException(new ArrayList<>(expectedTokens));
+        if (currentToken.getTokenType() == TokenType.EOF) {
+            throw new UnexpectedEndException(currentToken, new ArrayList<>(expectedTokens));
         }
         if (currentToken.getTokenType() == TokenType.ERROR) {
             throw new LexicalException(currentToken);
