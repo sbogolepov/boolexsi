@@ -1,9 +1,9 @@
 package optimizer.strategies;
 
 import optimizer.OptimizationStrategy;
-import parser.Node;
-import parser.nodes.Literal;
-import parser.nodes.Not;
+import node.Node;
+import node.nodes.Literal;
+import node.nodes.Not;
 
 /**
  * Created by sbogolepov on 08/05/2017.

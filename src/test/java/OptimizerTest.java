@@ -2,7 +2,7 @@ import lexer.Lexer;
 import optimizer.Optimizer;
 import optimizer.strategies.*;
 import org.junit.Test;
-import parser.Node;
+import node.Node;
 import parser.Parser;
 
 import java.io.StringReader;

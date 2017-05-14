@@ -3,7 +3,7 @@ package simplifier;
 import lexer.Lexer;
 import optimizer.OptimizationStrategy;
 import optimizer.Optimizer;
-import parser.Node;
+import node.Node;
 import parser.Parser;
 import parser.ParsingException;
 import parser.exceptions.LexicalException;

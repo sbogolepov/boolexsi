@@ -1,6 +1,5 @@
 package ui;
 
-import simplifier.SimplificationOutputProcessor;
 import simplifier.Simplifier;
 
 import java.io.*;
@@ -11,10 +10,11 @@ import java.io.*;
 public class CommandLineInterface {
     private final Simplifier simplifier;
 
-    private CLIOutputProcessor outputProcessor = new CLIOutputProcessor();
+    private CLIOutputProcessor outputProcessor;
 
     public CommandLineInterface(Simplifier simplifier) {
         this.simplifier = simplifier;
+        outputProcessor = new CLIOutputProcessor();
     }
 
     public void run() {

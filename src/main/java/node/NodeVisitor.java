@@ -1,6 +1,6 @@
-package optimizer;
+package node;
 
-import parser.nodes.*;
+import node.nodes.*;
 
 /**
  * Created by sbogolepov on 08/05/2017.

@@ -1,6 +1,7 @@
 package optimizer;
 
-import parser.Node;
+import node.Node;
+import node.walkers.PostFixTreeWalker;
 
 import java.util.List;
 import java.util.Map;

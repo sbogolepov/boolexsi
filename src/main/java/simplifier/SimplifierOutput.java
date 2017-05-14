@@ -1,8 +1,6 @@
 package simplifier;
 
-import parser.Node;
-
-import java.util.List;
+import node.Node;
 
 /**
  * Created by sbogolepov on 13/05/2017.

@@ -1,10 +1,7 @@
-package parser.nodes;
+package node.nodes;
 
-import optimizer.NodeVisitor;
-import parser.Node;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
+import node.NodeVisitor;
+import node.Node;
 
 /**
  * Created by sbogolepov on 14/05/2017.

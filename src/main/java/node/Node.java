@@ -1,6 +1,4 @@
-package parser;
-
-import optimizer.NodeVisitor;
+package node;
 
 /**
  * Created by sbogolepov on 08/05/2017.

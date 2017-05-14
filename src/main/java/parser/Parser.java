@@ -3,10 +3,11 @@ package parser;
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
+import node.Node;
 import parser.exceptions.LexicalException;
 import parser.exceptions.UnexpectedEndException;
 import parser.exceptions.UnexpectedTokenException;
-import parser.nodes.*;
+import node.nodes.*;
 
 import java.io.IOException;
 import java.util.*;

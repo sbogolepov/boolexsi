@@ -1,7 +1,6 @@
 package optimizer;
 
-import parser.Node;
-import parser.nodes.Not;
+import node.Node;
 
 /**
  * Created by sbogolepov on 08/05/2017.

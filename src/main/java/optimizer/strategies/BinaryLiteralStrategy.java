@@ -1,10 +1,9 @@
 package optimizer.strategies;
 
 import optimizer.OptimizationStrategy;
-import parser.Node;
-import parser.nodes.BinaryOp;
-import parser.nodes.Id;
-import parser.nodes.Literal;
+import node.Node;
+import node.nodes.BinaryOp;
+import node.nodes.Literal;
 
 /**
  * Created by sbogolepov on 09/05/2017.

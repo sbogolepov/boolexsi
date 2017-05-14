@@ -1,10 +1,10 @@
 package optimizer.strategies;
 
 import optimizer.OptimizationStrategy;
-import parser.Node;
-import parser.nodes.BinaryOp;
-import parser.nodes.Literal;
-import parser.nodes.Not;
+import node.Node;
+import node.nodes.BinaryOp;
+import node.nodes.Literal;
+import node.nodes.Not;
 
 import java.util.HashMap;
 import java.util.Map;

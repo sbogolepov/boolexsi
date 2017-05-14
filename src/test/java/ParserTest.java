@@ -1,14 +1,12 @@
 import lexer.Lexer;
 import org.junit.Test;
-import parser.Node;
+import node.Node;
 import parser.Parser;
-import parser.exceptions.LexicalException;
-import parser.nodes.*;
+import node.nodes.*;
 
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Created by sbogolepov on 08/05/2017.

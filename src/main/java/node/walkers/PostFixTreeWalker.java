@@ -1,7 +1,8 @@
-package optimizer;
+package node.walkers;
 
-import parser.Node;
-import parser.nodes.*;
+import node.Node;
+import node.NodeVisitor;
+import node.nodes.*;
 
 import java.util.function.Function;
 

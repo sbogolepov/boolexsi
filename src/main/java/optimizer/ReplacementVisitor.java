@@ -1,7 +1,8 @@
 package optimizer;
 
-import parser.Node;
-import parser.nodes.*;
+import node.Node;
+import node.NodeVisitor;
+import node.nodes.*;
 
 /**
  * Created by sbogolepov on 08/05/2017.
