@@ -1,6 +1,6 @@
-import optimizer.strategies.*;
-import simplifier.Simplifier;
-import ui.CommandLineInterface;
+import src.org.stepik.bogolepov.optimizer.strategies.*;
+import src.org.stepik.bogolepov.simplifier.Simplifier;
+import src.org.stepik.bogolepov.ui.CommandLineInterface;
 
 import java.util.Arrays;
 

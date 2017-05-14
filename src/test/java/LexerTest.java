@@ -1,6 +1,6 @@
-import lexer.Lexer;
-import lexer.Token;
-import lexer.TokenType;
+import src.org.stepik.bogolepov.lexer.Lexer;
+import src.org.stepik.bogolepov.lexer.Token;
+import src.org.stepik.bogolepov.lexer.TokenType;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -1,14 +1,13 @@
-import lexer.Lexer;
-import optimizer.Optimizer;
-import optimizer.strategies.*;
+import src.org.stepik.bogolepov.lexer.Lexer;
+import src.org.stepik.bogolepov.optimizer.Optimizer;
+import src.org.stepik.bogolepov.optimizer.strategies.*;
 import org.junit.Test;
-import node.Node;
-import parser.Parser;
+import src.org.stepik.bogolepov.node.Node;
+import src.org.stepik.bogolepov.parser.Parser;
 
 import java.io.StringReader;
 import java.util.Arrays;
 
-import static org.assertj.core.api.AssertionsForClassTypes.in;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 /**
@@ -50,6 +49,7 @@ public class OptimizerTest {
     @Test
     public void badChain() throws Exception {
         check("x OR y OR z OR w", "x OR y OR z OR w");
+        check("x OR y OR y OR x", "x OR y");
     }
 
     @Test

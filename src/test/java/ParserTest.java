@@ -1,8 +1,8 @@
-import lexer.Lexer;
+import src.org.stepik.bogolepov.lexer.Lexer;
 import org.junit.Test;
-import node.Node;
-import parser.Parser;
-import node.nodes.*;
+import src.org.stepik.bogolepov.node.Node;
+import src.org.stepik.bogolepov.parser.Parser;
+import src.org.stepik.bogolepov.node.nodes.*;
 
 import java.io.StringReader;
 
