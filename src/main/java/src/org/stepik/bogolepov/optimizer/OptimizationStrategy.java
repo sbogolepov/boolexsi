@@ -19,4 +19,8 @@ public interface OptimizationStrategy<T extends Node> {
      * @return src.org.stepik.bogolepov.node that should be attached to the param's parent
      */
     Node optimize(T node);
+
+    default boolean isSuccessful(T from, Node to) {
+        return !from.equals(to);
+    }
 }

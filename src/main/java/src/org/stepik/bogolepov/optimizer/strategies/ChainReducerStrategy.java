@@ -13,6 +13,9 @@ import java.util.Map;
  * Created by sbogolepov on 10/05/2017.
  */
 public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
+
+    private boolean hasDuplicates = false;
+
     @Override
     public Class<BinaryOp> target() {
         return BinaryOp.class;
@@ -25,6 +28,7 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
 
     @Override
     public Node optimize(BinaryOp node) {
+        hasDuplicates = false;
         BinaryOp.Type type = node.getType();
 
         Map<Node, Boolean> children = new HashMap<>();
@@ -34,6 +38,11 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
         }
 
         return rebuildChain(children, type);
+    }
+
+    @Override
+    public boolean isSuccessful(BinaryOp from, Node to) {
+        return hasDuplicates;
     }
 
     private boolean collectChainChildren(BinaryOp node, BinaryOp.Type type, Map<Node, Boolean> children) {
@@ -85,19 +94,30 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
         return !(node instanceof BinaryOp) || ((BinaryOp) node).getType() != type;
     }
 
-
     private boolean processChild(Node node, Map<Node, Boolean> children) {
         if (node instanceof Not) {
 
-            if (children.containsKey(((Not) node).getChild()) && children.get(((Not) node).getChild())) {
-                return true;
+            if (children.containsKey(((Not) node).getChild())) {
+                hasDuplicates = true;
+                if (children.get(((Not) node).getChild())) {
+                    return true;
+                } else {
+                    children.put(((Not) node).getChild(), false);
+                    return false;
+                }
             } else {
                 children.put(((Not) node).getChild(), false);
                 return false;
             }
         } else {
-            if (children.containsKey(node) && !children.get(node)) {
-                return true;
+            if (children.containsKey(node)) {
+                hasDuplicates = true;
+                if (!children.get(node)) {
+                    return true;
+                } else {
+                    children.put(node, true);
+                    return false;
+                }
             } else {
                 children.put(node, true);
                 return false;
