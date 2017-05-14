@@ -56,7 +56,7 @@ public class Parser {
             case FALSE:
                 return new Literal(parent, false);
             case ID:
-                return parseId(parent);
+                return new Id(parent, currentToken.getValue());
             case LPAREN:
                 takeNext(expressionTokenTypes);
                 Node expr = parseExpression(parent);
@@ -103,14 +103,6 @@ public class Parser {
             return not;
         } else {
             return parsePrimary(parent);
-        }
-    }
-
-    private Id parseId(Node parent) throws ParsingException {
-        if (currentToken.getTokenType() == TokenType.ID) {
-            return new Id(parent, currentToken.getValue());
-        } else {
-            throw new UnexpectedTokenException(currentToken, Collections.singletonList(TokenType.ID));
         }
     }
 
