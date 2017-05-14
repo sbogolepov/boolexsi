@@ -2,11 +2,13 @@ import lexer.Lexer;
 import org.junit.Test;
 import parser.Node;
 import parser.Parser;
+import parser.exceptions.LexicalException;
 import parser.nodes.*;
 
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Created by sbogolepov on 08/05/2017.
@@ -30,6 +32,11 @@ public class ParserTest {
     @Test
     public void singleId() throws Exception {
         assertThat(astFromString("id")).isEqualTo(new Id(null, "id"));
+    }
+
+    @Test
+    public void wrongId() {
+        assertThatThrownBy(() -> astFromString("fooBar")).hasCauseInstanceOf(LexicalException.class);
     }
 
     @Test

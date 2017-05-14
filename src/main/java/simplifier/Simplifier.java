@@ -6,8 +6,11 @@ import optimizer.Optimizer;
 import parser.Node;
 import parser.Parser;
 import parser.ParsingException;
+import parser.exceptions.LexicalException;
 import parser.exceptions.UnexpectedEndException;
 import parser.exceptions.UnexpectedTokenException;
+import simplifier.errors.LexicalError;
+import simplifier.errors.UnexpectedEndError;
 import simplifier.errors.UnexpectedTokenError;
 
 import java.io.IOException;
@@ -25,7 +28,6 @@ public class Simplifier {
         optimizer = new Optimizer(optimizations);
     }
 
-
     // TODO: process other exceptions
     public SimplifierOutput simplify(String input) {
         try {
@@ -35,7 +37,9 @@ public class Simplifier {
         } catch (UnexpectedTokenException e) {
             return new SimplifierOutput.Fail(new UnexpectedTokenError(e));
         } catch (UnexpectedEndException e) {
-            return new SimplifierOutput.Fail(null);
+            return new SimplifierOutput.Fail(new UnexpectedEndError(e));
+        } catch (LexicalException e) {
+            return new SimplifierOutput.Fail(new LexicalError(e));
         } catch (IOException e) {
             return new SimplifierOutput.Fail(null);
         } catch (ParsingException e) {

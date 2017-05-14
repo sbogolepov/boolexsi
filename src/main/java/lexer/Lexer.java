@@ -64,7 +64,7 @@ public class Lexer {
         if (isParen(currentChar)) {
             return parseParen();
         }
-        return new Token(currentPos, "", TokenType.ERROR);
+        return new Token(currentPos, String.valueOf((char) currentChar), TokenType.ERROR);
     }
 
     public Token peek() throws IOException {
@@ -103,8 +103,7 @@ public class Lexer {
             idBuilder.appendCodePoint(currentChar);
             readNextChar();
         }
-        String id = idBuilder.toString();
-        return new Token(startPos, id, TokenType.ID);
+        return new Token(startPos, idBuilder.toString(), TokenType.ID);
     }
 
     private Token parseParen() throws IOException {

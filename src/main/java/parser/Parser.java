@@ -3,6 +3,7 @@ package parser;
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
+import parser.exceptions.LexicalException;
 import parser.exceptions.UnexpectedEndException;
 import parser.exceptions.UnexpectedTokenException;
 import parser.nodes.*;
@@ -37,8 +38,11 @@ public class Parser {
 
     private void takeNext(List<TokenType> expectedTokens) throws IOException, ParsingException {
         currentToken = lexer.next();
-        if (currentToken == null) {
+        if (currentToken == null || currentToken.getTokenType() == TokenType.EOF) {
             throw new UnexpectedEndException(new ArrayList<>(expectedTokens));
+        }
+        if (currentToken.getTokenType() == TokenType.ERROR) {
+            throw new LexicalException(currentToken);
         }
         if (expectedTokens != null && !expectedTokens.contains(currentToken.getTokenType())) {
             throw new UnexpectedTokenException(currentToken, expectedTokens);

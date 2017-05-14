@@ -49,4 +49,11 @@ public class LexerTest {
     public void whitespaces() throws Exception {
         assertThat(tokensFormString("    ")).isEmpty();
     }
+
+    @Test
+    public void incorrectId() throws Exception {
+        assertThat(tokensFormString("fooBar")).contains(
+                new Token(3, "B", TokenType.ERROR)
+        );
+    }
 }
