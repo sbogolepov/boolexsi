@@ -1,5 +1,6 @@
 package optimizer.strategies;
 
+import node.nodes.Not;
 import optimizer.OptimizationStrategy;
 import node.Node;
 import node.nodes.BinaryOp;
@@ -23,6 +24,9 @@ public class RemoveParensStrategy implements OptimizationStrategy<Parens> {
         Node child = node.getChild();
         if (child instanceof BinaryOp && parent instanceof BinaryOp) {
             return ((BinaryOp) child).getType() == ((BinaryOp) parent).getType();
+        }
+        if (child instanceof Not && parent instanceof Not) {
+            return false;
         }
         return true;
     }

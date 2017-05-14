@@ -1,6 +1,7 @@
 package optimizer;
 
 import node.Node;
+import node.nodes.Parens;
 import node.walkers.PostFixTreeWalker;
 
 import java.util.List;
@@ -18,14 +19,15 @@ public class Optimizer {
         strategyMap = strategies.stream().collect(Collectors.groupingBy(OptimizationStrategy::target));
     }
 
-    // TODO: fix typing
     private <T extends Node> boolean apply(T node) {
         List<OptimizationStrategy<? extends Node>> optimizationStrategies = strategyMap.get(node.getClass());
         if (optimizationStrategies == null) return false;
         for (OptimizationStrategy<? extends Node> strategy : optimizationStrategies) {
             OptimizationStrategy<T> s = (OptimizationStrategy<T>) strategy;
             if (s.isAppropriate(node)) {
+                System.out.println("Apply " + s.getClass().getSimpleName() + " to " + node);
                 Node optimize = s.optimize(node);
+                System.out.println("Got: " + optimize);
                 if (!optimize.equals(node)) {
                     node.getParent().apply(new ReplacementVisitor(node, optimize));
                     return true;

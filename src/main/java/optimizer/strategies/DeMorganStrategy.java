@@ -41,13 +41,13 @@ public class DeMorganStrategy implements OptimizationStrategy<Not> {
         BinaryOp.Type type = prevOp.getType() == BinaryOp.Type.AND ? BinaryOp.Type.OR : BinaryOp.Type.AND;
         BinaryOp newOp = new BinaryOp(parent, type);
 
-
-
         Parens leftParens = new Parens(null, leftChild);
         Parens rightParens = new Parens(null, rightChild);
 
         Not leftNot = new Not(newOp, leftParens);
+        leftParens.setParent(leftNot);
         Not rightNot = new Not(newOp, rightParens);
+        rightParens.setParent(rightNot);
 
         newOp.setLeftChild(leftNot);
         newOp.setRightChild(rightNot);

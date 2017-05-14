@@ -65,7 +65,6 @@ public class BinaryOp extends Node {
 
         return type == binaryOp.type
                 && getChainOperands(this).equals(binaryOp.getChainOperands(binaryOp));
-
     }
 
     private Set<Node> getChainOperands(BinaryOp binaryOp) {

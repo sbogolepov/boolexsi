@@ -39,9 +39,7 @@ public class OptimizerTest {
 
     @Test
     public void notNotTest() throws Exception {
-        Node root = astFromString("NOT (NOT x)");
-        new Optimizer(Arrays.asList(new NotNotStrategy(), new RemoveParensStrategy())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("x"));
+        check("NOT (NOT x)", "x");
     }
 
     @Test
@@ -55,15 +53,19 @@ public class OptimizerTest {
     }
 
     @Test
+    public  void parenthesis() throws Exception {
+        check("(((x)))", "x");
+        check("NOT (x)", "NOT x");
+    }
+
+    @Test
     public void equalChains() throws Exception {
-        check("(x OR y OR z) OR (x OR z OR y)", "x OR y OR z");
+        check("(x OR y OR z) AND (x OR z OR y)", "x OR y OR z");
     }
 
     @Test
     public void invertLiteralTest() throws Exception {
-        Node root = astFromString("NOT TRUE");
-        new Optimizer(Arrays.asList(new InvertLiteral())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("FALSE"));
+        check("NOT TRUE", "FALSE");
     }
 
     @Test
@@ -74,41 +76,28 @@ public class OptimizerTest {
 
     @Test
     public void deMorganTest() throws Exception {
-        Node root = astFromString("NOT (x OR y)");
-        new Optimizer(Arrays.asList(new DeMorganStrategy())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("NOT (x) AND NOT (y)"));
+        check("NOT (x OR y)", "NOT x AND NOT y");
     }
 
     @Test
     public void literalAndIdTest() throws Exception {
-        Node root = astFromString("TRUE AND id");
-        new Optimizer(Arrays.asList(new BinaryLiteralStrategy())).optimize(root);
-        assertThat(root).isEqualTo(astFromString("id"));
-
-        Node r = astFromString("TRUE OR NOT id");
-        new Optimizer(Arrays.asList(new BinaryLiteralStrategy())).optimize(r);
-        assertThat(r).isEqualTo(astFromString("TRUE"));
+        check("TRUE AND id", "id");
+        check("TRUE OR NOT id", "TRUE");
     }
 
     @Test
     public void complex1Test() throws Exception {
-        Node root = astFromString("NOT(NOT dog AND NOT cat AND NOT FALSE)");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("dog OR cat"));
+        check("NOT(NOT dog AND NOT cat AND NOT FALSE)", "dog OR cat");
     }
 
     @Test
     public void simpleTest() throws Exception {
-        Node root = astFromString("x OR y OR TRUE");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("TRUE"));
+        check("x OR y OR TRUE", "TRUE");
     }
 
     @Test
     public void toBeOrToBe() throws Exception {
-        Node root = astFromString("x OR x");
-        defaultOptimizer().optimize(root);
-        assertThat(root).isEqualTo(astFromString("x"));
+        check("x OR x", "x");
     }
 
     @Test

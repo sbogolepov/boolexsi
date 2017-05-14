@@ -88,6 +88,7 @@ public class ChainReducerStrategy implements OptimizationStrategy<BinaryOp> {
 
     private boolean processChild(Node node, Map<Node, Boolean> children) {
         if (node instanceof Not) {
+
             if (children.containsKey(((Not) node).getChild()) && children.get(((Not) node).getChild())) {
                 return true;
             } else {

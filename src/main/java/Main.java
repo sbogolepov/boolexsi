@@ -1,4 +1,3 @@
-import optimizer.Optimizer;
 import optimizer.strategies.*;
 import simplifier.Simplifier;
 import ui.CommandLineInterface;
