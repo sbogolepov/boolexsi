@@ -26,7 +26,6 @@ public class CommandLineInterface {
                 if (input.equals("quit")) {
                     break;
                 }
-                outputProcessor.setInput(input);
                 simplifier.simplify(input).process(outputProcessor);
             }
         } catch (IOException e) {

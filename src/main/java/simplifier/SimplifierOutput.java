@@ -29,9 +29,10 @@ public interface SimplifierOutput {
     final class Fail implements SimplifierOutput {
 
         private final Error error;
+        private final String input;
 
-        public Fail(Error error) {
-
+        public Fail(String input, Error error) {
+            this.input = input;
             this.error = error;
         }
 
@@ -42,6 +43,10 @@ public interface SimplifierOutput {
 
         public Error getError() {
             return error;
+        }
+
+        public String getInput() {
+            return input;
         }
     }
 }

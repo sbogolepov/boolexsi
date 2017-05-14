@@ -1,6 +1,7 @@
 package parser.exceptions;
 
 import lexer.Token;
+import parser.ParsingExceptionVisitor;
 import parser.ParsingException;
 
 /**
@@ -15,5 +16,10 @@ public class LexicalException extends ParsingException {
 
     public Token getToken() {
         return token;
+    }
+
+    @Override
+    public <T> T apply(ParsingExceptionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

@@ -13,7 +13,6 @@ public class UnexpectedEndError implements Error {
     private final UnexpectedEndException exception;
 
     public UnexpectedEndError(UnexpectedEndException exception) {
-
         this.exception = exception;
     }
 

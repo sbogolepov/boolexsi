@@ -2,10 +2,10 @@ package parser.exceptions;
 
 import lexer.Token;
 import lexer.TokenType;
+import parser.ParsingExceptionVisitor;
 import parser.ParsingException;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sbogolepov on 13/05/2017.
@@ -27,5 +27,8 @@ public class UnexpectedTokenException extends ParsingException {
         return expectedTokens;
     }
 
-
+    @Override
+    public <T> T apply(ParsingExceptionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

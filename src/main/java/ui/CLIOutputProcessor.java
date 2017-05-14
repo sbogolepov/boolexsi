@@ -9,16 +9,11 @@ import java.util.function.Consumer;
  * Created by sbogolepov on 13/05/2017.
  */
 public class CLIOutputProcessor implements SimplificationOutputProcessor {
-    private String input;
-
-
-    public void setInput(String input) {
-        this.input = input;
-    }
+    private CLIExpressionPrinter expressionPrinter = new CLIExpressionPrinter();
 
     @Override
     public void process(SimplifierOutput.Success success) {
-        System.out.println(success.getNode());
+        success.getNode().apply(expressionPrinter);
     }
 
     @Override
@@ -27,7 +22,7 @@ public class CLIOutputProcessor implements SimplificationOutputProcessor {
         int end = fail.getError().endPosition();
         String positions = "[" + start + ".." + end + "]";
         System.out.println("Parse error at " + positions + ": " + fail.getError().getMessage());
-        System.out.println(input);
+        System.out.println(fail.getInput());
         int i = 0;
         while (i < fail.getError().startPosition()) {
             System.out.print(' ');
