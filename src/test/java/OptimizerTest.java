@@ -86,8 +86,9 @@ public class OptimizerTest {
     }
 
     @Test
-    public void complex1Test() throws Exception {
+    public void complex() throws Exception {
         check("NOT(NOT dog AND NOT cat AND NOT FALSE)", "dog OR cat");
+        check("NOT (TRUE OR FALSE OR TRUE OR FALSE) AND (x OR y OR (x OR y))", "FALSE");
     }
 
     @Test

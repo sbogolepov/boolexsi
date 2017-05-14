@@ -25,9 +25,7 @@ public class Optimizer {
         for (OptimizationStrategy<? extends Node> strategy : optimizationStrategies) {
             OptimizationStrategy<T> s = (OptimizationStrategy<T>) strategy;
             if (s.isAppropriate(node)) {
-                System.out.println("Apply " + s.getClass().getSimpleName() + " to " + node);
                 Node optimize = s.optimize(node);
-                System.out.println("Got: " + optimize);
                 if (!optimize.equals(node)) {
                     node.getParent().apply(new ReplacementVisitor(node, optimize));
                     return true;
