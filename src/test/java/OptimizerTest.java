@@ -115,4 +115,9 @@ public class OptimizerTest {
     public void toBeOrNotToBe() throws Exception {
         check("x OR NOT x", "TRUE");
     }
+
+    @Test
+    public void failed() throws Exception {
+//        check("NOT(NOT(a OR b AND c)) AND c", "(a OR b) AND c");
+    }
 }

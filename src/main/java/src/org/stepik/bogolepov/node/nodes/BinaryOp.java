@@ -44,6 +44,7 @@ public class BinaryOp extends Node {
 
     public void setLeftChild(Node leftChild) {
         this.leftChild = leftChild;
+        leftChild.setParent(this);
     }
 
     public Node getRightChild() {
@@ -52,6 +53,7 @@ public class BinaryOp extends Node {
 
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
+        rightChild.setParent(this);
     }
 
     @Override

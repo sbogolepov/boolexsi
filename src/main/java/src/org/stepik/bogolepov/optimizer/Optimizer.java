@@ -1,9 +1,11 @@
 package src.org.stepik.bogolepov.optimizer;
 
 import src.org.stepik.bogolepov.node.Node;
+import src.org.stepik.bogolepov.node.nodes.Root;
 import src.org.stepik.bogolepov.node.walkers.PostFixTreeWalker;
 import src.org.stepik.bogolepov.optimizer.strategies.ChainReducerStrategy;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,20 +22,19 @@ public class Optimizer {
     }
 
     private <T extends Node> boolean apply(T node) {
-        boolean hasSuccess = false;
-        List<OptimizationStrategy<? extends Node>> optimizationStrategies = strategyMap.get(node.getClass());
-        if (optimizationStrategies == null) return false;
+        List<OptimizationStrategy<? extends Node>> optimizationStrategies
+                = strategyMap.getOrDefault(node.getClass(), Collections.emptyList());
         for (OptimizationStrategy<? extends Node> strategy : optimizationStrategies) {
             OptimizationStrategy<T> s = (OptimizationStrategy<T>) strategy;
             if (s.isAppropriate(node)) {
                 Node optimize = s.optimize(node);
                 if (s.isSuccessful(node, optimize)) {
                     node.getParent().apply(new ReplacementVisitor(node, optimize));
-                    hasSuccess = true;
+                    return true;
                 }
             }
         }
-        return hasSuccess;
+        return false;
     }
 
     public void optimize(Node root) {

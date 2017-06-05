@@ -19,7 +19,7 @@ public class ReplacementVisitor implements NodeVisitor<Void> {
     @Override
     public Void visit(BinaryOp binaryOp) {
         to.setParent(binaryOp);
-        if (binaryOp.getLeftChild().equals(from)) {
+        if (binaryOp.getLeftChild() == from) {
             binaryOp.setLeftChild(to);
         } else {
             binaryOp.setRightChild(to);

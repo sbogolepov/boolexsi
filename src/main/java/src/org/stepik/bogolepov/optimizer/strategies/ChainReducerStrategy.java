@@ -1,5 +1,6 @@
 package src.org.stepik.bogolepov.optimizer.strategies;
 
+import src.org.stepik.bogolepov.node.nodes.Parens;
 import src.org.stepik.bogolepov.optimizer.OptimizationStrategy;
 import src.org.stepik.bogolepov.node.Node;
 import src.org.stepik.bogolepov.node.nodes.BinaryOp;

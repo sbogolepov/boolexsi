@@ -18,6 +18,12 @@ public class Not extends Node {
         this(child.getParent(), child);
     }
 
+    public static Not invert(Node child) {
+        Not not = new Not(child);
+        child.setParent(not);
+        return not;
+    }
+
     public Node getChild() {
         return child;
     }
@@ -43,7 +49,7 @@ public class Not extends Node {
 
     @Override
     public String toString() {
-        return "NOT " + child;
+        return "NOT " + "(" + child + ")";
     }
 
     @Override

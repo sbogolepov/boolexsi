@@ -5,6 +5,7 @@ import src.org.stepik.bogolepov.node.NodeVisitor;
 import src.org.stepik.bogolepov.node.nodes.*;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Created by sbogolepov on 09/05/2017.
@@ -13,36 +14,44 @@ import java.util.function.Function;
  */
 public class PostFixTreeWalker implements NodeVisitor<Boolean> {
 
-    private Function<Node, Boolean> f;
+    private Predicate<Node> f;
 
-    public PostFixTreeWalker(Function<Node, Boolean> f) {
+    public PostFixTreeWalker(Predicate<Node> f) {
         this.f = f;
     }
 
     @Override
     public Boolean visit(BinaryOp binaryOp) {
-        if (binaryOp.getLeftChild().apply(this) || binaryOp.getRightChild().apply(this)) {
-            visit(binaryOp);
+        if (f.test(binaryOp)) {
+            return true;
         }
-        return f.apply(binaryOp);
+
+        if (binaryOp.getLeftChild().apply(this) || binaryOp.getRightChild().apply(this)) {
+            return visit(binaryOp);
+        }
+        return false;
     }
 
     @Override
     public Boolean visit(Id id) {
-        return f.apply(id);
+        return f.test(id);
     }
 
     @Override
     public Boolean visit(Literal literal) {
-         return f.apply(literal);
+         return f.test(literal);
     }
 
     @Override
     public Boolean visit(Not not) {
-        if (not.getChild().apply(this)) {
-            visit(not);
+        if (f.test(not)) {
+            return true;
         }
-        return f.apply(not);
+
+        if (not.getChild().apply(this)) {
+            return visit(not);
+        }
+        return false;
     }
 
     @Override
@@ -50,14 +59,17 @@ public class PostFixTreeWalker implements NodeVisitor<Boolean> {
         if (root.getChild().apply(this)) {
             visit(root);
         }
-        return f.apply(root);
+        return f.test(root);
     }
 
     @Override
     public Boolean visit(Parens parens) {
-        if (parens.getChild().apply(this)) {
-            visit(parens);
+        if (f.test(parens)) {
+            return true;
         }
-        return f.apply(parens);
+        if (parens.getChild().apply(this)) {
+            return visit(parens);
+        }
+        return false;
     }
 }
